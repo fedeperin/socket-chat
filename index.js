@@ -12,14 +12,8 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     socket.broadcast.emit('someone connected')
-    socket.on('chat message', (msg) => {
-        socket.broadcast.emit('chat message', msg);
-    });
-    socket.on('typing', () => {
-        socket.broadcast.emit('typing');
-    });
-    socket.on('no typing', () => {
-        socket.broadcast.emit('no typing');
+    socket.on('chat message', (msg, name) => {
+        socket.broadcast.emit('chat message', msg, name);
     });
     socket.on('disconnect', () => {
       io.emit('someone disconnected')

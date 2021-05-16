@@ -69,14 +69,16 @@
             flex-direction: column;
             list-style: none;
             background: #111;
+            padding-top: 100px;
         }
 
         .cont-msg {
             width: 100%;
             height: 100%;
             display: flex;
-            align-items: center;
-            justify-content: flex-end;
+            align-items: flex-end;
+            justify-content: center;
+            flex-direction: column;
             padding: 7px;
         }
 
@@ -91,8 +93,13 @@
             transition: all 1s ease;
         }
 
+        .cont-msg .nombre {
+            color: #eee;
+            margin-bottom: 10px;
+        }
+
         .cont-msg.cont-msg-other {
-            justify-content: flex-start;
+            align-items: flex-start;
         }
         .cont-msg.cont-msg-other > .msg {
             background: #ddd;
@@ -117,12 +124,61 @@
             justify-content: center;
             padding: 10px;
         }
+
+        #nombre {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 25px;
+        }
+
+        #nombre input, #nombre button {
+            padding: 7px;
+            outline: none;
+            margin: 5px;
+            border-radius: 4px;
+            transition: all .5s ease;
+        }
+
+        #nombre input {
+            padding: 7px;
+            outline: none;
+            margin: 5px;
+            border: 2px solid #fff;
+        }
+
+        #nombre input:focus {
+            border: 2px solid #000;
+        }
+
+        #nombre button {
+            border: none;
+            background: #1e3e96;
+            cursor: pointer;
+            color: #fff;
+            padding: 9px;
+        }
+
+        #nombre button:hover, #nombre button:focus {
+            opacity: 0.7;
+        }
     </style>
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
 </head>
 
 <body>
+    <form id="nombre">
+        <input type="text" autocomplete="off" placeholder="Nombre...">
+        <button type="submit">Cambiar nombre</button>
+    </form>
+
     <div id="messages">
 
     </div>
@@ -136,18 +192,38 @@
 
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');
+        var nombreForm = document.querySelector('form#nombre');
         var input = document.getElementById('input');
+        let nombre = 'Anónimo';
+
+        function generarRandom(min, max) {
+            return Math.floor(Math.random() * (max - min) + min)
+        }
+        for(var i = 0; i <= 4; i++) {
+            nombre = nombre + generarRandom(0, 10)
+            console.log(i)
+            console.clear()
+        }
+        nombreForm.querySelector('input').value = nombre
+        nombreForm.addEventListener('submit', e => {
+            e.preventDefault()
+            nombre = nombreForm.querySelector('input').value
+        })
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (input.value) {
-                socket.emit('chat message', input.value);
+                socket.emit('chat message', input.value, nombre);
 
                 var cont = document.createElement('div');
-                cont.classList.add('cont-msg')
                 var message = document.createElement('div')
+                var nombreDiv = document.createElement('div')
+                nombreDiv.classList.add('nombre')
+                cont.classList.add('cont-msg')
                 message.classList.add('msg')
                 message.textContent = input.value;
+                nombreDiv.textContent = 'Yo'
+                cont.appendChild(nombreDiv)
                 cont.appendChild(message)
                 messages.appendChild(cont);
                 window.scrollTo(0, document.body.scrollHeight);
@@ -156,13 +232,17 @@
             }
         });
 
-        socket.on('chat message', function (msg) {
+        socket.on('chat message', function (msg, name) {
             var cont = document.createElement('div');
+            var message = document.createElement('div')
+            var nombreDiv = document.createElement('div')
+            nombreDiv.classList.add('nombre')
             cont.classList.add('cont-msg')
             cont.classList.add('cont-msg-other')
-            var message = document.createElement('div')
             message.classList.add('msg')
             message.textContent = msg;
+            nombreDiv.textContent = name;
+            cont.appendChild(nombreDiv)
             cont.appendChild(message)
             messages.appendChild(cont);
             window.scrollTo(0, document.body.scrollHeight);
