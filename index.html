@@ -170,12 +170,14 @@
             desconecto.classList.add('desconecto')
             desconecto.textContent = 'Alguien se desconectó'
             messages.appendChild(desconecto)
+            window.scrollTo(0, document.body.scrollHeight);
         });
         socket.on('someone connected', function () {
             var conecto = document.createElement('div')
             conecto.classList.add('conecto')
             conecto.textContent = 'Alguien se conectó'
             messages.appendChild(conecto)
+            window.scrollTo(0, document.body.scrollHeight);
         });
     </script>
 </body>
