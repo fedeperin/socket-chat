@@ -207,7 +207,9 @@
         nombreForm.querySelector('input').value = nombre
         nombreForm.addEventListener('submit', e => {
             e.preventDefault()
-            nombre = nombreForm.querySelector('input').value
+            if(!nombreForm.querySelector('input').value == '') {
+                nombre = nombreForm.querySelector('input').value
+            }
         })
 
         form.addEventListener('submit', function (e) {
