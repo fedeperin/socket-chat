@@ -57,6 +57,7 @@
             outline: none;
             color: #fff;
             cursor: pointer;
+            transition: all .5s ease;
         }
 
         #form>button:hover, #form button:focus {
@@ -87,12 +88,15 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            transform: translateZ(-100vw);
+            transition: all 1s ease;
         }
 
         .cont-msg.cont-msg-other {
             justify-content: flex-start;
         }
         .cont-msg.cont-msg-other > .msg {
+            transform: translateZ(-100vw);
             background: #ddd;
         }
 
@@ -148,6 +152,7 @@
                 message.textContent = input.value;
                 cont.appendChild(message)
                 messages.appendChild(cont);
+                message.style.transform = 'translateZ(0)'
                 window.scrollTo(0, document.body.scrollHeight);
                 
                 input.value = '';
@@ -163,6 +168,7 @@
             message.textContent = msg;
             cont.appendChild(message)
             messages.appendChild(cont);
+            message.style.transform = 'translateZ(0)'
             window.scrollTo(0, document.body.scrollHeight);
         });
         socket.on('someone disconnected', function () {
