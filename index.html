@@ -10,9 +10,11 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
         html {
             scroll-behavior: smooth;
         }
+
         body {
             background: #111;
             margin: 0;
@@ -101,6 +103,7 @@
         .cont-msg.cont-msg-other {
             align-items: flex-start;
         }
+
         .cont-msg.cont-msg-other > .msg {
             background: #ddd;
         }
@@ -114,6 +117,7 @@
             justify-content: center;
             padding: 10px;
         }
+
         .desconecto {
             width: 100%;
             height: 100%;
@@ -179,22 +183,23 @@
         <button type="submit">Cambiar nombre</button>
     </form>
 
-    <div id="messages">
+    <div id="messages"></div>
 
-    </div>
     <form id="form" action="">
         <input id="input" autocomplete="off" autofocus placeholder="Mensaje..."/>
         <button>Enviar</button>
     </form>
+
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io();
+        var socket = io()
 
-        var messages = document.getElementById('messages');
-        var form = document.getElementById('form');
-        var nombreForm = document.querySelector('form#nombre');
-        var input = document.getElementById('input');
-        let nombre = 'Anónimo';
+        var messages = document.querySelector('#messages')
+        var form = document.querySelector('#form')
+        var nombreForm = document.querySelector('form#nombre')
+        var input = document.getElementById('input')
+        let nombre = 'Anónimo'
 
         function generarRandom(min, max) {
             return Math.floor(Math.random() * (max - min) + min)
@@ -207,62 +212,82 @@
         nombreForm.querySelector('input').value = nombre
         nombreForm.addEventListener('submit', e => {
             e.preventDefault()
+
             if(!nombreForm.querySelector('input').value == '') {
                 nombre = nombreForm.querySelector('input').value
+            }else {
+                nombreForm.querySelector('input').value = nombre
             }
         })
 
         form.addEventListener('submit', function (e) {
-            e.preventDefault();
+            e.preventDefault()
             if (input.value) {
-                socket.emit('chat message', input.value, nombre);
+                socket.emit('chat message', input.value, nombre)
+
 
                 var cont = document.createElement('div');
                 var message = document.createElement('div')
                 var nombreDiv = document.createElement('div')
+
                 nombreDiv.classList.add('nombre')
                 cont.classList.add('cont-msg')
                 message.classList.add('msg')
-                message.textContent = input.value;
+
+                message.textContent = input.value
                 nombreDiv.textContent = 'Yo'
+
                 cont.appendChild(nombreDiv)
                 cont.appendChild(message)
-                messages.appendChild(cont);
-                window.scrollTo(0, document.body.scrollHeight);
-                
-                input.value = '';
+                messages.appendChild(cont)
+
+                window.scrollTo(0, document.body.scrollHeight)
+
+                input.value = ''
             }
-        });
+        })
 
         socket.on('chat message', function (msg, name) {
-            var cont = document.createElement('div');
+            var cont = document.createElement('div')
             var message = document.createElement('div')
             var nombreDiv = document.createElement('div')
+
             nombreDiv.classList.add('nombre')
             cont.classList.add('cont-msg')
             cont.classList.add('cont-msg-other')
             message.classList.add('msg')
-            message.textContent = msg;
-            nombreDiv.textContent = name;
+
+            message.textContent = msg
+            nombreDiv.textContent = name
+
             cont.appendChild(nombreDiv)
             cont.appendChild(message)
-            messages.appendChild(cont);
-            window.scrollTo(0, document.body.scrollHeight);
-        });
+            messages.appendChild(cont)
+
+            window.scrollTo(0, document.body.scrollHeight)
+        })
         socket.on('someone disconnected', function () {
             var desconecto = document.createElement('div')
+
             desconecto.classList.add('desconecto')
+
             desconecto.textContent = 'Alguien se desconectó'
+
             messages.appendChild(desconecto)
-            window.scrollTo(0, document.body.scrollHeight);
-        });
+
+            window.scrollTo(0, document.body.scrollHeight)
+        })
         socket.on('someone connected', function () {
             var conecto = document.createElement('div')
+
             conecto.classList.add('conecto')
+
             conecto.textContent = 'Alguien se conectó'
+
             messages.appendChild(conecto)
-            window.scrollTo(0, document.body.scrollHeight);
-        });
+
+            window.scrollTo(0, document.body.scrollHeight)
+        })
     </script>
 </body>
 
