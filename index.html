@@ -63,58 +63,57 @@
         }
     </style>
     <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
 </head>
 
 <body>
     <ul id="messages"></ul>
     <form id="form" action="">
-        <input id="input" autocomplete="off"/>
+        <input id="input" autocomplete="off" />
         <button>Enviar</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
-      
+
         var messages = document.getElementById('messages');
         var form = document.getElementById('form');
         var input = document.getElementById('input');
 
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          if (input.value) {
-            socket.emit('chat message', input.value);
-            
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (input.value) {
+                socket.emit('chat message', input.value);
+
+                var item = document.createElement('li');
+                item.textContent = input.value;
+                messages.appendChild(item);
+                window.scrollTo(0, document.body.scrollHeight);
+
+                input.value = '';
+            }
+        });
+
+        socket.on('chat message', function (msg) {
             var item = document.createElement('li');
-            item.textContent = input.value;
+            item.textContent = msg;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
-
-            input.value = '';
-          }
         });
-      
-        socket.on('chat message', function(msg) {
-          var item = document.createElement('li');
-          item.textContent = msg;
-          messages.appendChild(item);
-          window.scrollTo(0, document.body.scrollHeight);
+        socket.on('someone disconnected', function () {
+            var item = document.createElement('li');
+            item.textContent = 'Alguien se desconectó';
+            item.style.background = 'red'
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
         });
-        socket.on('someone disconnected', function() {
-          var item = document.createElement('li');
-          item.textContent = 'Alguien se desconectó';
-          item.style.background = 'red'
-          messages.appendChild(item);
-          window.scrollTo(0, document.body.scrollHeight);
-        });
-        socket.on('someone connected', function() {
+        socket.on('someone connected', function () {
             var item = document.createElement('li');
             item.textContent = 'Alguien se conectó';
             item.style.background = 'lightgreen'
-          messages.appendChild(item);
-          window.scrollTo(0, document.body.scrollHeight);
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
         });
-
     </script>
 </body>
 
