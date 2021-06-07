@@ -81,8 +81,31 @@ nameForm.querySelector('input').value = userName
 nameForm.addEventListener('submit', e => {
     e.preventDefault()
 
-    if (!nameForm.querySelector('input').value == '') {
+    if (!nameForm.querySelector('input').value == '' && userName !== nameForm.querySelector('input').value) {
         userName = nameForm.querySelector('input').value
+
+        var cont = document.createElement('div')
+        var message = document.createElement('div')
+        var nameDiv = document.createElement('div')
+    
+        nameDiv.classList.add('name')
+        cont.classList.add('cont-msg')
+        cont.classList.add('cont-msg-other')
+        message.classList.add('msg')
+    
+        message.innerHTML = 'Nombre exitosamente cambiado'
+        nameDiv.textContent = 'Bot (solo visible para mí)'
+        message.style.background = '#333'
+        message.style.color = '#fff'
+    
+        cont.appendChild(nameDiv)
+        cont.appendChild(message)
+        messages.appendChild(cont)
+    
+        newMessageSound.currentTime = ''
+        newMessageSound.play()
+    
+        window.scrollTo(0, document.body.scrollHeight)
     } else {
         nameForm.querySelector('input').value = userName
     }
