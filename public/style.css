@@ -82,9 +82,7 @@ body {
     background: #fff;
     box-shadow: 0 0 7px #000;
     border-radius: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: pre-wrap;
     font-size: 15px;
     display: flex;
     transition: all 1s ease;
