@@ -188,7 +188,7 @@ body {
 
 #gifs {
     position: fixed;
-    bottom: 60px;
+    top: 95px;
     right: 10px;
     padding: 10px;
     background: #6a0080;
