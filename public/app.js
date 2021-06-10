@@ -58,7 +58,7 @@ function fetchGifs(urlToFetch) {
                     message.classList.add('msg')
 
                     message.innerHTML = `<img src="${ result.media[0].gif.url }" draggable="false">`
-                    nameDiv.textContent = 'Me'
+                    nameDiv.textContent = 'Yo'
 
                     cont.appendChild(nameDiv)
                     cont.appendChild(message)
