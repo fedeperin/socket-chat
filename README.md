@@ -7,4 +7,4 @@ Heroku: https://heroku.com
 
 ## Iniciar aplicación
 Primero ejecutar el siguiente comando por terminal para instalar las dependencias `npm i express socket.io fs-extra` <br>
-Después para iniciar la aplicaión ejecutar `node server.js`
+Después, para iniciar la aplicaión ejecutar `node server.js`
