@@ -1,4 +1,4 @@
-# Chat con Socket.io
+# Chat con Socket io
 Chat hecho con Node js y como dependencias utiliza solamente socket.io, express y fs-extra<br>
 Está alojado en <a href="https://heroku.com" target="_blank">Heroku</a> como https://fedeperin-socket-chat.herokuapp.com/ <br><br>
 Descargar Node js: https://nodejs.org/ <br>
